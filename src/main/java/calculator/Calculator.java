@@ -15,6 +15,7 @@ public class Calculator {
         System.out.println(add("1,2\n3,4000"));
         System.out.println(add("//;;;\n10;;;20"));
         System.out.println(add("//[;][+]\n3+4;5"));
+        System.out.println(add("//[;][++]\n4++5;6"));
     }
 
     static int add(String numbers) {
