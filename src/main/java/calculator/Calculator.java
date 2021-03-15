@@ -10,7 +10,8 @@ public class Calculator {
         System.out.println(add("//;\n10;20"));
         System.out.println(add("10\n20,30"));
         System.out.println(add("1,2\n3,4,5"));
-        System.out.println(add("1,2\n3,-4,-5"));
+        // System.out.println(add("1,2\n3,-4,-5"));
+        System.out.println(add("1,2\n3,4000"));
     }
 
     static int add(String numbers) {
@@ -26,8 +27,8 @@ public class Calculator {
         StringBuilder errors = new StringBuilder();
         for (String s : split) {
             int n = Integer.parseInt(s);
-            if (n < 0) errors.append(n).append(", ");
-            else       sum += n;
+            if (n < 0)         errors.append(n).append(", ");
+            else if (n <= 1000) sum += n;
         }
 
         if (0 < errors.length()) throw new RuntimeException("negatives not allowed: " + errors.substring(0, errors.length() - 2));
