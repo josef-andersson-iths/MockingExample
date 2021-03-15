@@ -1,6 +1,7 @@
 package calculator;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class Calculator {
 
@@ -13,6 +14,7 @@ public class Calculator {
         // System.out.println(add("1,2\n3,-4,-5"));
         System.out.println(add("1,2\n3,4000"));
         System.out.println(add("//;;;\n10;;;20"));
+        System.out.println(add("//[;][+]\n3+4;5"));
     }
 
     static int add(String numbers) {
@@ -21,7 +23,14 @@ public class Calculator {
         String[] split;
         if (numbers.matches("\\A//.+\n.*")) {
             split = numbers.split("\n", 2);
-            split = split[1].split(split[0].substring(2));
+            String deli = split[0].substring(2);
+            if (deli.matches("^(\\[.+])+$")) {
+                StringBuilder newDeli = new StringBuilder();
+                for (String s : deli.substring(1, deli.length() - 1).split("]\\["))
+                    newDeli.append("(").append(Pattern.quote(s)).append(")|");
+                deli = newDeli.substring(0, newDeli.length() - 1);
+            }
+            split = split[1].split(deli);
         } else split = numbers.split("[,\n]");
 
         int sum = 0;
