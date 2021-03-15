@@ -9,20 +9,29 @@ public class Calculator {
         System.out.println(add("1"));
         System.out.println(add("//;\n10;20"));
         System.out.println(add("10\n20,30"));
-        System.out.println(add("1,2\n3,4"));
+        System.out.println(add("1,2\n3,4,5"));
+        System.out.println(add("1,2\n3,-4,-5"));
     }
 
     static int add(String numbers) {
-        if (numbers.length() == 0)
-            return 0;
+        if (numbers.length() == 0) return 0;
+
         String[] split;
         if (numbers.matches("\\A//.+\n.*")) {
             split = numbers.split("\n", 2);
             split = split[1].split(split[0].substring(2));
-        } else {
-            split = numbers.split("[,\n]");
+        } else split = numbers.split("[,\n]");
+
+        int sum = 0;
+        StringBuilder errors = new StringBuilder();
+        for (String s : split) {
+            int n = Integer.parseInt(s);
+            if (n < 0) errors.append(n).append(", ");
+            else       sum += n;
         }
-        return Arrays.stream(split).mapToInt(Integer::parseInt).reduce(Integer::sum).orElse(0);
+
+        if (0 < errors.length()) throw new RuntimeException("negatives not allowed: " + errors.substring(0, errors.length() - 2));
+        else                     return sum;
     }
 
 }
