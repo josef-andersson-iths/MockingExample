@@ -5,20 +5,7 @@ import java.util.regex.Pattern;
 
 public class Calculator {
 
-    public static void main(String[] args) {
-        System.out.println(add(""));
-        System.out.println(add("1"));
-        System.out.println(add("//;\n10;20"));
-        System.out.println(add("10\n20,30"));
-        System.out.println(add("1,2\n3,4,5"));
-        // System.out.println(add("1,2\n3,-4,-5"));
-        System.out.println(add("1,2\n3,4000"));
-        System.out.println(add("//;;;\n10;;;20"));
-        System.out.println(add("//[;][+]\n3+4;5"));
-        System.out.println(add("//[;][++]\n4++5;6"));
-    }
-
-    static int add(String numbers) {
+    int add(String numbers) {
         if (numbers.length() == 0) return 0;
 
         String[] split;
@@ -30,7 +17,7 @@ public class Calculator {
                 for (String s : deli.substring(1, deli.length() - 1).split("]\\["))
                     newDeli.append("(").append(Pattern.quote(s)).append(")|");
                 deli = newDeli.substring(0, newDeli.length() - 1);
-            }
+            } else deli = Pattern.quote(deli);
             split = split[1].split(deli);
         } else split = numbers.split("[,\n]");
 
